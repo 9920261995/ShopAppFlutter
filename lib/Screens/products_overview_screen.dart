@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:shop_app/Providers/product.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/Providers/cart_provider.dart';
+import 'package:shop_app/Screens/cart_screens.dart';
+import '../Widgets/badge.dart';
 // import 'package:shop_app/Providers/products_provider.dart';
 // import './Providers/products_provider.dart'
 
@@ -25,6 +27,16 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: AppBar(
         title: Text("Title"),
         actions: <Widget>[
+          Consumer<CartProvider>(
+            builder: (context, cart, ch) =>
+                Badge(child: ch, value: cart.cartItemCount.toString()),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
           PopupMenuButton(
               onSelected: (FilterOptions value) => {
                     if (value == FilterOptions.Favourites)
@@ -51,7 +63,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                       child: Text("Show All "),
                       value: FilterOptions.All,
                     )
-                  ])
+                  ]),
         ],
       ),
       body: ProductsGrid(_showOnlyFavourites),

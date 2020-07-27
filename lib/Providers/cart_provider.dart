@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class CartItem {
   final String id;
@@ -15,11 +15,23 @@ class CartItem {
       this.quantity});
 }
 
-class Cart with ChangeNotifier {
-  Map<String, CartItem> _items;
+class CartProvider with ChangeNotifier {
+  Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
     return {..._items};
+  }
+
+  int get cartItemCount {
+    return _items.length;
+  }
+
+  double get totalAmount {
+    double total = 0;
+    _items.forEach((key, cartItem) {
+      total = total + cartItem.price * cartItem.quantity;
+    });
+    return total;
   }
 
   void addProduct(String id, String title, double price) {
@@ -42,5 +54,6 @@ class Cart with ChangeNotifier {
               price: price,
               quantity: 1));
     }
+    notifyListeners();
   }
 }
