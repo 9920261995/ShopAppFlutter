@@ -5,8 +5,9 @@ import 'package:shop_app/Screens/product_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
-  _handleDetailsTap(BuildContext context) {
-    Navigator.of(context).pushNamed(ProductDetailScreen.routeName);
+  _handleDetailsTap(BuildContext context, String id) {
+    Navigator.of(context)
+        .pushNamed(ProductDetailScreen.routeName, arguments: id);
   }
 
   @override
@@ -18,7 +19,7 @@ class ProductItem extends StatelessWidget {
         child: GridTile(
             child: GestureDetector(
               onTap: () {
-                _handleDetailsTap(context);
+                _handleDetailsTap(context, product.id);
               },
               child: Image.network(
                 product.imageUrl,
