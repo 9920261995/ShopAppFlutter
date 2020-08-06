@@ -5,7 +5,7 @@ class OrdersItems {
   final id;
   final amount;
   final DateTime time;
-  final List<CartProvider> cartItems;
+  final List<CartItem> cartItems;
 
   OrdersItems(
       {@required this.id,
@@ -21,7 +21,7 @@ class OrdersProvider with ChangeNotifier {
     return [..._orders];
   }
 
-  void addNewOrders(List<CartProvider> cartItem, double total) {
+  void addNewOrders(List<CartItem> cartItem, double total) {
     _orders.insert(
         0,
         OrdersItems(
@@ -29,6 +29,7 @@ class OrdersProvider with ChangeNotifier {
             amount: total,
             cartItems: cartItem,
             time: DateTime.now()));
+    print(_orders);
     notifyListeners();
   }
 }
