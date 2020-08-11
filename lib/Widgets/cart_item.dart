@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import '../Providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
+// enum SelectedResult { Yes, No }
+
 class CartItem extends StatelessWidget {
   final String id;
   final String productId;
@@ -12,11 +14,40 @@ class CartItem extends StatelessWidget {
 
   CartItem(this.id, this.title, this.quantity, this.price, this.productId);
 
+  // bool _confirmedDismiss(direction) {
+  //   return Future.value(true);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(productId),
       direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Are you sure?"),
+            content: Text('Do you want to remove the item from the cart'),
+            actions: [
+              FlatButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              )
+            ],
+          ),
+        );
+
+        // _confirmedDismiss(direction);
+      },
       onDismissed: (direction) {
         Provider.of<CartProvider>(context, listen: false).removeItem(productId);
       },
